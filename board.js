@@ -3,20 +3,25 @@
     window.Nokia = {};
   }
 
-
   var Board = Nokia.Board = function () {
-    this.snake = new Nokia.Snake([4,4])
-    this.area = this.createArea();
+    this.snake = new Nokia.Snake([15,15], this);
+    this.apples = [];
+    this.addApples();
+    window.setInterval(this.addApples.bind(this), 10000)
   }
+
+  Board.DIM = 25;
 
   Board.prototype.render = function(){
     // var that = this;
     var string = ""
 
-    for(var i = 0; i < 10; i++) {
-      for(var j = 0; j < 10; j++) {
-        if (this.isASegment([i, j])) {
+    for(var i = 0; i < Board.DIM; i++) {
+      for(var j = 0; j < Board.DIM; j++) {
+        if (this.snake.isASegment([i, j])) {
           string += " S ";
+        } else if (this.isAnApple([i,j])){
+          string += " A "
         } else {
           string += " . ";
         }
@@ -24,32 +29,39 @@
       string += "\n"
     };
 
-    console.log("\n" + string);
+    return string;
   }
 
-  Board.prototype.isASegment = function (coord){
+  Board.prototype.isAnApple = function(coord) {
     var included = false;
 
-    this.snake.segments.forEach(function (el){
+    this.apples.forEach(function (el){
       if(_.isEqual(el, coord)){
         included = true
       }
     })
 
     return included;
+}
+
+
+  Board.prototype.addApples = function(){
+    var that = this;
+
+    _(4).times(function(){
+      var x = Math.floor(Board.DIM*Math.random());
+      var y = Math.floor(Board.DIM*Math.random());
+      that.apples.push([x, y])
+    })
   }
 
-  Board.prototype.createArea = function(){
-    var area = []
+  Board.prototype.removeApple = function(apple){
+    var that = this;
 
-    for(var i = 0; i < 10; i++) {
-      area.unshift([]);
-
-      for(var i = 0; i < 10; i++) {
-        area[0].push([]);
+    this.apples.forEach(function (el, idx){
+      if(_.isEqual(el, apple)){
+        that.apples.splice(idx, 1);
       }
-    }
-
-    return area;
+    })
   }
 })()

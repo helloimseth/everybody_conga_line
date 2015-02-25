@@ -7,15 +7,20 @@
   </head>
   <body>
 
+    <pre>
+
+    </pre>
+
     <script src="./jquery-2.1.1.js"></script>
     <script src="./underscore.js"></script>
     <!-- Whackjobs at GithubPages don't understand symlinks... -->
     <script src="./board.js"></script>
     <script src="./snake.js"></script>
+    <script src="./view.js"></script>
 
     <script>
-      var board = new Nokia.Board();
-      board.render();
+      var $pre = $('pre');
+      var view = new Nokia.View($pre);
     </script>
   </body>
 </html>
