@@ -4,31 +4,43 @@
   }
 
   var View = Nokia.View = function($el){
-    this.$el = $el;
+    this.$parentEl = $el
+    this.$el = $el.find('.game-board');
+
     this.board = new Nokia.Board(this);
-    this.$el.text(this.board.render());
+    this.board.render();
+
     this.handleKeyEvent();
-    setInterval(this.step.bind(this), 150);
+    this.intervalId = setInterval(this.step.bind(this), 150);
+
+    this.$parentEl.find('.pause-button').click(this.pauseGame.bind(this))
   }
 
   View.prototype.handleKeyEvent = function(){
-    var that = this;
+    this;
 
-    $(document).keydown(function(){
+    if (event.keyCode === 32) {
+      this.pauseGame();
+      return;
+    }
+
+    this.$parentEl.keydown(function(event){
       switch(event.keyCode){
         case 38:
-          that.board.snake.turn("N");
+          this.board.snake.turn("N");
           break;
         case 40:
-          that.board.snake.turn("S");
+          this.board.snake.turn("S");
           break;
         case 37:
-          that.board.snake.turn("W");
+          this.board.snake.turn("W");
+          break;
+        case 39:
+          this.board.snake.turn("E");
           break;
         default:
-          that.board.snake.turn("E");
           break; }
-      })
+      }.bind(this))
     };
 
 
@@ -37,9 +49,45 @@
       this.board.snake.move();
       this.board.render()
     } else {
-      this.$el.text("SORRRRRRRRY")
+      clearInterval(this.intervalId);
+      this.$el.empty()
+          .addClass('game-over')
+      this.$parentEl.find('.pause-button')
+                    .removeClass()
+                    .addClass('start-button')
+                    .off('click')
+                    .on("click", function(event){
+                      $(event.currentTarget).toggleClass('start-button')
+                                            .toggleClass('pause-button')
+                                            .off('click')
+                      $('.game-board').removeClass('game-over')
+                      new Nokia.View($('.game'));
+                    });
     }
   }
 
+  View.prototype.pauseGame = function (event) {
+    console.log(this.paused);
+    if (this.paused) {
+      $(this.$el.find('.pause-screen')).remove();
+
+      this.handleKeyEvent();
+
+      this.intervalId = setInterval(this.step.bind(this), 150);
+      this.board.appleIntervalId = setInterval(this.board.addApples.bind(this.board), 10000);
+
+      this.paused = false;
+    } else {
+      clearInterval(this.intervalId);
+      clearInterval(this.board.appleIntervalId);
+
+      this.$parentEl.off();
+
+      $section = $('<section>').addClass('pause-screen');
+      this.$el.prepend($section);
+
+      this.paused = true;
+    }
+  }
 
 })()

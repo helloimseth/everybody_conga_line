@@ -9,6 +9,9 @@
     this.segments = [pos];
     this.board = board;
     this.alive = true;
+
+    this.score = 0;
+    this.modifier = 1;
   }
 
   Snake.prototype.move = function(){
@@ -36,6 +39,9 @@
     if(!this.board.isAnApple(newFirst)){
       this.segments.pop()
     } else {
+      this.score += 1 * this.modifier
+      console.log(this.score);
+      this.updateModifier();
       this.board.removeApple(newFirst)
     }
 
@@ -79,5 +85,19 @@
     })
 
     return included;
+  }
+
+  Snake.prototype.isFirstSegment = function (pos) {
+    if (_.isEqual(pos, this.segments[0])) {
+      return true;
+    }
+
+    return false;
+  }
+
+  Snake.prototype.updateModifier = function () {
+    if (this.segments.length % 10 === 0 && this.score > 1) {
+      this.modifier++;
+    }
   }
 })()

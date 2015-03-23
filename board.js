@@ -11,7 +11,7 @@
 
     this.buildBoard();
     this.addApples();
-    window.setInterval(this.addApples.bind(this), 10000)
+    this.appleIntervalId = setInterval(this.addApples.bind(this), 10000)
   }
 
   Board.prototype.render = function(){
@@ -24,10 +24,18 @@
       $li.removeClass()
 
       if (this.snake.isASegment(pos)) {
-        $li.addClass('snake');
+        $li.addClass('snake ' + this.snake.dir);
       } else if (this.isAnApple(pos)){
         $li.addClass('apple');
+      } else {
+        $li.addClass('empty')
       }
+
+      if (this.snake.isFirstSegment(pos)) {
+        $li.addClass('first');
+      }
+
+      this.view.$parentEl.find('.score-num').text(this.snake.score)
     }.bind(this));
   }
 
@@ -73,11 +81,5 @@
       };
     };
 
-  }
-
-  Board.prototype.convertPosToIndex = function (pos) {
-    return(pos[0] % this.DIM) +
-          (pos[0] * this.DIM) +
-          (pos[1] % this.DIM);
   }
 })()

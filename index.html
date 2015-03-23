@@ -7,10 +7,17 @@
   </head>
   <body>
 
-    <ul class='game-board group'>
+    <section class='game group'>
+      <nav class='menu'>
+        <button class='start-button'></button>
+        
+        <h2>Score</h2>
+        <figure class='score-num'>0</figure>
+      </nav>
+      <ul class='game-board group game-over'>
 
-    </ul>
-
+      </ul>
+    </section>
     <script src="./jquery-2.1.1.js"></script>
     <script src="./underscore.js"></script>
     <script src="./board.js"></script>
@@ -18,7 +25,13 @@
     <script src="./view.js"></script>
 
     <script>
-      var view = new Nokia.View($('.game-board'));
+      $('.start-button').on("click", function(event){
+        $(event.currentTarget).toggleClass('start-button')
+                              .toggleClass('pause-button')
+                              .off('click')
+        $('.game-board').removeClass('game-over')
+        new Nokia.View($('.game'));
+      });
     </script>
   </body>
 </html>
