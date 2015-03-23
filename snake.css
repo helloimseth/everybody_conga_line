@@ -1,0 +1,25 @@
+.group:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.game-board {
+  list-style: none;
+  width: 500px;
+}
+
+.game-board li {
+  float: left;
+  width: 20px;
+  height: 20px;
+  background: yellow;
+}
+
+.game-board li.snake {
+  background: green;
+}
+
+.game-board li.apple {
+  background: red;
+}

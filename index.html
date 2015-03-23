@@ -3,24 +3,22 @@
   <head>
     <meta charset="utf-8">
     <title>Snake</title>
-    <!-- <link rel="stylesheet" type="text/css" href="../css/ttt.css"> -->
+    <link rel="stylesheet" type="text/css" href="snake.css">
   </head>
   <body>
 
-    <pre>
+    <ul class='game-board group'>
 
-    </pre>
+    </ul>
 
     <script src="./jquery-2.1.1.js"></script>
     <script src="./underscore.js"></script>
-    <!-- Whackjobs at GithubPages don't understand symlinks... -->
     <script src="./board.js"></script>
     <script src="./snake.js"></script>
     <script src="./view.js"></script>
 
     <script>
-      var $pre = $('pre');
-      var view = new Nokia.View($pre);
+      var view = new Nokia.View($('.game-board'));
     </script>
   </body>
 </html>

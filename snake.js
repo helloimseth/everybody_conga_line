@@ -29,10 +29,7 @@
         break;
     };
 
-    if(this.isASegment(newFirst)){
-      alert("You Lose");
-      this.alive = false;
-    }
+    this.checkIfAlive(newFirst);
 
     this.segments.unshift(newFirst);
 
@@ -43,6 +40,15 @@
     }
 
 
+  }
+
+  Snake.prototype.checkIfAlive = function (pos) {
+    if(this.isASegment(pos)){
+      this.alive = false;
+    } else if (pos[0] === 0 || pos[1] === 0 ||
+               pos[1] === this.board.DIM || pos[0] === this.board.DIM) {
+      this.alive = false;
+    }
   }
 
   Snake.prototype.turn = function(dir){

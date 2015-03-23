@@ -3,33 +3,32 @@
     window.Nokia = {};
   }
 
-  var Board = Nokia.Board = function () {
+  var Board = Nokia.Board = function (view) {
+    this.view = view
     this.snake = new Nokia.Snake([15,15], this);
     this.apples = [];
+    this.DIM = 25;
+
+    this.buildBoard();
     this.addApples();
     window.setInterval(this.addApples.bind(this), 10000)
   }
 
-  Board.DIM = 25;
-
   Board.prototype.render = function(){
-    // var that = this;
-    var string = ""
+    this.view.$el.children().each(function (idx, li) {
+      var $li = $(li);
+      var pos = []
+      pos.push(parseInt($li.data("pos-x")));
+      pos.push(parseInt($li.data("pos-y")));
 
-    for(var i = 0; i < Board.DIM; i++) {
-      for(var j = 0; j < Board.DIM; j++) {
-        if (this.snake.isASegment([i, j])) {
-          string += " S ";
-        } else if (this.isAnApple([i,j])){
-          string += " A "
-        } else {
-          string += " . ";
-        }
-      };
-      string += "\n"
-    };
+      $li.removeClass()
 
-    return string;
+      if (this.snake.isASegment(pos)) {
+        $li.addClass('snake');
+      } else if (this.isAnApple(pos)){
+        $li.addClass('apple');
+      }
+    }.bind(this));
   }
 
   Board.prototype.isAnApple = function(coord) {
@@ -49,8 +48,8 @@
     var that = this;
 
     _(4).times(function(){
-      var x = Math.floor(Board.DIM*Math.random());
-      var y = Math.floor(Board.DIM*Math.random());
+      var x = Math.floor(that.DIM*Math.random());
+      var y = Math.floor(that.DIM*Math.random());
       that.apples.push([x, y])
     })
   }
@@ -63,5 +62,22 @@
         that.apples.splice(idx, 1);
       }
     })
+  }
+
+  Board.prototype.buildBoard = function(){
+    for(var i = 0; i < this.DIM; i++) {
+      for(var j = 0; j < this.DIM; j++) {
+        $li = $('<li>').data("pos-x", i)
+                       .data("pos-y", j);
+        this.view.$el.append($li);
+      };
+    };
+
+  }
+
+  Board.prototype.convertPosToIndex = function (pos) {
+    return(pos[0] % this.DIM) +
+          (pos[0] * this.DIM) +
+          (pos[1] % this.DIM);
   }
 })()
