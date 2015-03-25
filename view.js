@@ -4,21 +4,18 @@
   }
 
   var View = Nokia.View = function($el){
-    this.$parentEl = $el
+    this.$parentEl = $el;
     this.$el = $el.find('.game-board');
 
     this.board = new Nokia.Board(this);
     this.board.render();
 
-    this.handleKeyEvent();
-    this.intervalId = setInterval(this.step.bind(this), 150);
+    this.startGame();
 
-    this.$parentEl.find('.pause-button').click(this.pauseGame.bind(this))
-  }
+
+  };
 
   View.prototype.handleKeyEvent = function(){
-    this;
-
     if (event.keyCode === 32) {
       this.pauseGame();
       return;
@@ -40,43 +37,57 @@
           break;
         default:
           break; }
-      }.bind(this))
+      }.bind(this));
     };
 
 
   View.prototype.step = function(){
     if(this.board.snake.alive){
       this.board.snake.move();
-      this.board.render()
+      this.board.render();
     } else {
-      clearInterval(this.intervalId);
-      this.$el.empty()
-          .addClass('game-over')
-      this.$parentEl.find('.pause-button')
-                    .removeClass()
-                    .addClass('start-button')
-                    .off('click')
-                    .on("click", function(event){
-                      $(event.currentTarget).toggleClass('start-button')
-                                            .toggleClass('pause-button')
-                                            .off('click')
-                      $('.game-board').removeClass('game-over')
-                      new Nokia.View($('.game'));
-                    });
+      this.endGame();
     }
-  }
+  };
+
+  View.prototype.endGame = function () {
+    clearInterval(this.intervalId);
+    this.$el.empty()
+        .addClass('game-over');
+
+    var setStart = function(event){
+      $(event.currentTarget).toggleClass('start-button')
+                            .toggleClass('pause-button')
+                            .off('click');
+
+      $('.game-board').removeClass('game-over');
+      new Nokia.View($('.game'));
+    };
+
+    this.$parentEl.find('.pause-button')
+                  .removeClass()
+                  .addClass('start-button')
+                  .off('click')
+                  .on("click", setStart);
+};
+
+  View.prototype.startGame = function () {
+    this.handleKeyEvent();
+
+    this.intervalId = setInterval(this.step.bind(this), 150);
+    this.board.appleIntervalId = setInterval(this.board.addApples.bind(this.board), 10000);
+
+    this.paused = false;
+
+    this.$parentEl.find('.pause-button').click(this.pauseGame.bind(this));
+  };
+
 
   View.prototype.pauseGame = function (event) {
-    console.log(this.paused);
     if (this.paused) {
       $(this.$el.find('.pause-screen')).remove();
 
-      this.handleKeyEvent();
-
-      this.intervalId = setInterval(this.step.bind(this), 150);
-      this.board.appleIntervalId = setInterval(this.board.addApples.bind(this.board), 10000);
-
-      this.paused = false;
+      this.startGame();
     } else {
       clearInterval(this.intervalId);
       clearInterval(this.board.appleIntervalId);
@@ -88,6 +99,6 @@
 
       this.paused = true;
     }
-  }
+  };
 
-})()
+})();
