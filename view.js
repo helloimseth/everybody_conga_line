@@ -11,8 +11,6 @@
     this.board.render();
 
     this.startGame();
-
-
   };
 
   View.prototype.handleKeyEvent = function(){
@@ -71,11 +69,32 @@
                   .on("click", setStart);
 };
 
+View.prototype.increaseDifficulty = function () {
+  if (this.board.snake.segments.length % 10 === 0) {
+    this.currentInterval -= 5;
+    this.displaySpeed += 1;
+
+    clearInterval(this.intervalId);
+    this.intervalId = setInterval(this.step.bind(this), this.currentInterval);
+  }
+};
+
   View.prototype.startGame = function () {
     this.handleKeyEvent();
 
-    this.intervalId = setInterval(this.step.bind(this), 150);
-    this.board.appleIntervalId = setInterval(this.board.addApples.bind(this.board), 10000);
+    this.currentInterval = 150;
+
+    this.intervalId = setInterval(
+      this.step.bind(this),
+      this.currentInterval
+      );
+
+    this.board.appleIntervalId = setInterval(
+      this.board.addApples.bind(this.board),
+      10000
+      );
+
+    this.displaySpeed = 1;
 
     this.paused = false;
 

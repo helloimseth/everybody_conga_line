@@ -11,7 +11,7 @@
 
     this.buildBoard();
     this.addApples();
-  }
+  };
 
   Board.prototype.render = function(){
     this.view.$el.children().each(function (idx, li) {
@@ -35,6 +35,8 @@
       }
 
       this.view.$parentEl.find('.score-num').text(this.snake.score);
+      this.view.$parentEl.find('.speed-num').text(this.view.displaySpeed);
+
     }.bind(this));
   };
 

@@ -10,9 +10,12 @@
     <section class='game group'>
       <nav class='menu'>
         <button class='start-button'></button>
-        
+
         <h2>Score</h2>
         <figure class='score-num'>0</figure>
+
+        <h2>Speed</h2>
+        <figure class='speed-num'>0</figure>
       </nav>
       <ul class='game-board group game-over'>
 
@@ -28,8 +31,8 @@
       $('.start-button').on("click", function(event){
         $(event.currentTarget).toggleClass('start-button')
                               .toggleClass('pause-button')
-                              .off('click')
-        $('.game-board').removeClass('game-over')
+                              .off('click');
+        $('.game-board').removeClass('game-over');
         new Nokia.View($('.game'));
       });
     </script>

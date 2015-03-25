@@ -12,7 +12,7 @@
 
     this.score = 0;
     this.modifier = 1;
-  }
+  };
 
   Snake.prototype.move = function(){
     var newFirst = _.first(this.segments).slice();
@@ -30,62 +30,63 @@
       default:
         newFirst[1] -= 1;
         break;
-    };
+    }
 
     this.checkIfAlive(newFirst);
 
     this.segments.unshift(newFirst);
 
     if(!this.board.isAnApple(newFirst)){
-      this.segments.pop()
+      this.segments.pop();
     } else {
-      this.score += 1 * this.modifier
-      console.log(this.score);
-      this.updateModifier();
-      this.board.removeApple(newFirst)
+      this.score += 1 * this.modifier;
+
+      this.updateModifierAndDifficulty();
+
+      this.board.removeApple(newFirst);
     }
 
 
-  }
+  };
 
   Snake.prototype.checkIfAlive = function (pos) {
     if(this.isASegment(pos)){
       this.alive = false;
-    } else if (pos[0] === 0 || pos[1] === 0 ||
+    } else if (pos[0] === -1 || pos[1] === -1 ||
                pos[1] === this.board.DIM || pos[0] === this.board.DIM) {
       this.alive = false;
     }
-  }
+  };
 
   Snake.prototype.turn = function(dir){
 
     switch (this.dir){
       case "N":
-        this.dir = dir === "S" ? this.dir : dir
+        this.dir = dir === "S" ? this.dir : dir;
         break;
       case "E":
-        this.dir = dir === "W" ? this.dir : dir
+        this.dir = dir === "W" ? this.dir : dir;
         break;
       case "S":
-        this.dir = dir === "N" ? this.dir : dir
+        this.dir = dir === "N" ? this.dir : dir;
         break;
       default:
-        this.dir = dir === "E" ? this.dir : dir
+        this.dir = dir === "E" ? this.dir : dir;
         break;
-    };
-  }
+    }
+  };
 
   Snake.prototype.isASegment = function (coord){
     var included = false;
 
     this.segments.forEach(function (el){
       if(_.isEqual(el, coord)){
-        included = true
+        included = true;
       }
-    })
+    });
 
     return included;
-  }
+  };
 
   Snake.prototype.isFirstSegment = function (pos) {
     if (_.isEqual(pos, this.segments[0])) {
@@ -93,11 +94,12 @@
     }
 
     return false;
-  }
+  };
 
-  Snake.prototype.updateModifier = function () {
+  Snake.prototype.updateModifierAndDifficulty = function () {
     if (this.segments.length % 10 === 0 && this.score > 1) {
       this.modifier++;
+      this.board.view.increaseDifficulty();
     }
-  }
-})()
+  };
+})();
