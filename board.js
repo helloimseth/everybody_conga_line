@@ -21,8 +21,10 @@
 
       $li.removeClass();
 
-      if (this.snake.isASegment(pos)) {
-        $li.addClass(this.snake.segments[pos[0] + '' + pos[1]].liClasses());
+      var segment = this.snake.grabSegment(pos);
+
+      if (segment) {
+        $li.addClass(segment.liClasses());
       } else if (this.isAnApple(pos)){
         $li.addClass('apple');
       } else {

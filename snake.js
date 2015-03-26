@@ -7,18 +7,15 @@
     this.dir = "N";
     this.inputtedDir = "N";
 
-    this.segments = {};
-
-    var posKey = pos[0] + '' + pos[1];
-    this.segments[posKey] = new Nokia.Segment({
+    var startSegment = new Nokia.Segment({
         pos: pos,
         dir: this.dir,
         index: 0,
         snake: this
       });
 
-    this.leadSegment = this.segments[posKey];
-    this.tailSegment = this.segments[posKey];
+    this.segments = [ startSegment ];
+
     this.alive = true;
 
     this.board = board;
@@ -41,15 +38,13 @@
 
     this.checkIfMoveKills(newFirst.pos);
 
-    var newFirstPosKey = newFirst.pos[0] + '' + newFirst.pos[1];
-    this.segments[newFirstPosKey] = newFirst;
-    this.leadSegment = newFirst;
+    this.segments.unshift(newFirst);
 
     this.eatIfApple(newFirst);
   };
 
   Snake.prototype.checkIfMoveKills = function (pos) {
-    if(this.isASegment(pos) || this.isOutOfBounds(pos)) {
+    if(this.grabSegment(pos) || this.isOutOfBounds(pos)) {
       this.alive = false;
     }
   };
@@ -58,13 +53,16 @@
     this.inputtedDir = this.isOppositeDir(dir) ? this.dir : dir;
   };
 
-  Snake.prototype.isASegment = function (coord){
-    var parsedKey = coord[0] + '' + coord[1];
-    if (this.segments[parsedKey]) {
-      return true;
-    }
+  Snake.prototype.grabSegment = function (pos) {
+    var currentSegment;
 
-    return false;
+    this.segments.forEach(function (segment) {
+      if (_.isEqual(segment.pos, pos)) {
+        currentSegment =  segment;
+      }
+    });
+
+    return currentSegment;
   };
 
   Snake.prototype.isFirstSegment = function (pos) {
@@ -97,12 +95,9 @@
 
       this.board.removeApple(segment.pos);
     } else {
-      var posKey = this.tailSegment.pos[0] + '' + this.tailSegment.pos[1];
-      delete this.segments[posKey];
-      this.tailSegment = segment;
+      this.segments.pop();
     }
-    debugger
-    
+
   };
 
   Snake.prototype.isOppositeDir = function (dir) {
@@ -118,7 +113,7 @@
   };
 
   Snake.prototype.getNewFirstSegment = function () {
-    var newFirst = this.leadSegment.dup();
+    var newFirst = this.segments[0].dup();
 
     newFirst.pos[0] += Snake.DIRSANDDELTAS[this.dir][0];
     newFirst.pos[1] += Snake.DIRSANDDELTAS[this.dir][1];
