@@ -39,6 +39,7 @@
     this.checkIfMoveKills(newFirst.pos);
 
     this.segments.unshift(newFirst);
+    this.updateSegmentIndices();
 
     this.eatIfApple(newFirst);
   };
@@ -117,8 +118,15 @@
 
     newFirst.pos[0] += Snake.DIRSANDDELTAS[this.dir][0];
     newFirst.pos[1] += Snake.DIRSANDDELTAS[this.dir][1];
+    newFirst.dir = this.dir;
 
     return newFirst;
+  };
+
+  Snake.prototype.updateSegmentIndices = function () {
+    this.segments.slice(1).forEach( function (segment) {
+      segment.index += 1;
+    });
   };
 
 })();

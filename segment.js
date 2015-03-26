@@ -10,12 +10,12 @@
     this.snake = options.snake;
   };
 
-  Segment.prototype.isLeader = function () {
-    return this.index === 0;
+  Segment.prototype.classIfLeader = function () {
+    return this.index === 0 ? ' first' : '';
   };
 
-  Segment.prototype.isTail = function () {
-    return this.index === this.snake.segments.length - 1;
+  Segment.prototype.classIfTail = function () {
+    return this.index === this.snake.segments.length - 1 ? ' tail' : '';
   };
 
   Segment.prototype.leader = function () {
@@ -26,8 +26,61 @@
     return this.snake.segments[this.index + 1];
   };
 
+  Segment.prototype.classIfTopLeftCorner = function () {
+    if((this.follower().dir === 'N' && this.leader().dir === 'E') ||
+       (this.follower().dir === 'W' && this.leader().dir === 'S')||
+       (this.follower().dir === 'W' && this.leader().dir === 'E') ||
+       (this.follower().dir === 'N' && this.leader().dir === 'S')) {
+      return ' top-left-corner';
+    }
+    return '';
+  };
+
+  Segment.prototype.classIfTopRightCorner = function () {
+    console.log('my dir', this.dir);
+    console.log('leadir', this.leader().dir);
+    if((this.follower().dir === 'N' && this.leader().dir === 'W') ||
+       (this.follower().dir === 'E' && this.leader().dir === 'S') ||
+       (this.follower().dir === 'E' && this.leader().dir === 'W') ||
+       (this.follower().dir === 'N' && this.leader().dir === 'S')) {
+      return ' top-right-corner';
+    }
+    return '';
+  };
+
+  Segment.prototype.classIfBottomLeftCorner = function () {
+    if((this.follower().dir === 'S' && this.leader().dir === 'E') ||
+       (this.follower().dir === 'W' && this.leader().dir === 'N') ||
+       (this.follower().dir === 'W' && this.leader().dir === 'E') ||
+       (this.follower().dir === 'S' && this.leader().dir === 'N')) {
+      return ' bottom-left-corner';
+    }
+    return '';
+  };
+
+  Segment.prototype.classIfBottomRightCorner = function () {
+    if((this.follower().dir === 'S' && this.leader().dir === 'W') ||
+       (this.follower().dir === 'E' && this.leader().dir === 'N') ||
+       (this.follower().dir === 'E' && this.leader().dir === 'W') ||
+       (this.follower().dir === 'S' && this.leader().dir === 'N')) {
+      return ' bottom-right-corner';
+    }
+    return '';
+  };
+
   Segment.prototype.liClasses = function () {
-    return 'snake ' + this.dir;
+    var classes = 'snake ' +
+                  this.dir +
+                  this.classIfLeader();
+
+    if (this.follower() && this.leader()) {
+      classes += this.classIfTopLeftCorner() +
+                 this.classIfTopRightCorner() +
+                 this.classIfBottomLeftCorner()  +
+                 this.classIfBottomRightCorner();
+    }
+
+    return classes;
   };
 
   Segment.prototype.dup = function () {

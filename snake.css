@@ -95,7 +95,8 @@ html, body, section, article, button,
 }
 
 .game-board li.snake {
-  background-image: url('skin.jpg');
+  /*background-image: url('skin.jpg');*/
+  background: blue;
   background-size: cover;
 }
 
@@ -133,4 +134,24 @@ html, body, section, article, button,
 .game-board li.snake.W.first:before {
   content:":";
   color: #fff;
+}
+
+.game-board li.snake.W.top-left-corner,
+.game-board li.snake.N.top-right-corner {
+  border-radius: 20px 0 0 0;
+}
+
+.game-board li.snake.E.top-right-corner,
+.game-board li.snake.S.bottom-right-corner {
+  border-radius: 0 20px 0 0 ;
+}
+
+.game-board li.snake.S.bottom-left-corner,
+.game-board li.snake.E.bottom-right-corner{
+  border-radius: 0 0 20px 0 ;
+}
+
+.game-board li.snake.N.top-left-corner,
+.game-board li.snake.W.bottom-left-corner {
+  border-radius: 0 0 0 20px;
 }
