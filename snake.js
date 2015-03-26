@@ -5,6 +5,7 @@
 
   var Snake = Nokia.Snake = function(pos, board){
     this.dir = "N";
+    this.inputtedDir = "N";
 
     this.pos = pos;
     this.segments = [pos];
@@ -24,18 +25,15 @@
     };
 
   Snake.prototype.move = function(){
-    var newFirst = _.first(this.segments).slice();
+    this.dir = this.inputtedDir;
 
-    newFirst[0] += Snake.DIRSANDDELTAS[this.dir][0];
-    newFirst[1] += Snake.DIRSANDDELTAS[this.dir][1];
+    var newFirst = this.getNewFirstSegment;
 
     this.checkIfAlive(newFirst);
 
     this.segments.unshift(newFirst);
 
-    if(!this.ateAnApple(newFirst)){
-      this.segments.pop();
-    }
+    this.eatIfApple(newFirst);
   };
 
   Snake.prototype.checkIfAlive = function (pos) {
@@ -44,13 +42,8 @@
     }
   };
 
-  Snake.prototype.turn = function(dir){
-    var currentDelta = Snake.DIRSANDDELTAS[this.dir];
-    var newDelta = Snake.DIRSANDDELTAS[dir];
-    var summedDeltas = [currentDelta[0] + newDelta[0],
-                        currentDelta[1] + newDelta[1]];
-
-    this.dir = _.isEqual(summedDeltas, [0,0]) ? this.dir : dir;
+  Snake.prototype.turn = function(dir) {
+    this.inputtedDir = this.isOppositeDir(dir) ? this.dir : dir;
   };
 
   Snake.prototype.isASegment = function (coord){
@@ -87,17 +80,39 @@
            pos[1] === this.board.DIM;
   };
 
-  Snake.prototype.ateAnApple = function (pos) {
+  Snake.prototype.eatIfApple = function (pos) {
     if(this.board.isAnApple(pos)){
       this.score += 1 * this.modifier;
 
       this.updateModifierAndDifficulty();
 
       this.board.removeApple(pos);
+    } else {
+      this.segments.pop();
+    }
+  };
 
+  Snake.prototype.isOppositeDir = function (dir) {
+    var currentDelta = Snake.DIRSANDDELTAS[this.dir];
+    var newDelta = Snake.DIRSANDDELTAS[dir];
+
+    var summedDeltas = [currentDelta[0] + newDelta[0],
+                        currentDelta[1] + newDelta[1]];
+
+    if (_.isEqual(summedDeltas, [0,0])) {
       return true;
     }
 
-      return false;
+    return false;
   };
+
+  Snake.prototype.getNewFirstSegment = function () {
+    var newFirst = _.first(this.segments).slice();
+
+    newFirst[0] += Snake.DIRSANDDELTAS[this.dir][0];
+    newFirst[1] += Snake.DIRSANDDELTAS[this.dir][1];
+
+    return newFirst;
+  };
+
 })();

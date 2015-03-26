@@ -13,28 +13,25 @@
     this.startGame();
   };
 
+  View.KEYCODEANDDIRS = {
+    38: "N",
+    40: "S",
+    37: "W",
+    39: "E"
+  };
+
   View.prototype.handleKeyEvent = function(){
     if (event.keyCode === 32) {
       this.pauseGame();
       return;
     }
 
+
     this.$parentEl.keydown(function(event){
-      switch(event.keyCode){
-        case 38:
-          this.board.snake.turn("N");
-          break;
-        case 40:
-          this.board.snake.turn("S");
-          break;
-        case 37:
-          this.board.snake.turn("W");
-          break;
-        case 39:
-          this.board.snake.turn("E");
-          break;
-        default:
-          break; }
+      console.log(event.keyCode);
+
+      this.board.snake.turn(View.KEYCODEANDDIRS[event.keyCode]);
+
       }.bind(this));
     };
 
