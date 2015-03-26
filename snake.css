@@ -68,6 +68,14 @@ html, body, section, article, button,
 
 .game-over {
   background: #bb1244;
+  text-align: center;
+}
+
+.game-over > H2 {
+  color: #fff;
+  font-size: 36px;
+  font-weight: bold;
+  margin-top: 150px;
 }
 
 .menu {

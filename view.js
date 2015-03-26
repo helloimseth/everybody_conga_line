@@ -10,10 +10,6 @@
     this.board = new Nokia.Board(this);
     this.board.render();
 
-    this.displaySpeed = 1;
-    this.paused = false;
-    this.currentInterval = 150;
-
     this.$parentEl
         .find('.pause-button')
         .click(this.handlePause.bind(this));
@@ -50,10 +46,11 @@
 
   View.prototype.endGame = function () {
     clearInterval(this.intervalId);
+
     this.$el
         .empty()
         .addClass('game-over')
-        .text('GAME OVER');
+        .html('<h2>GAME OVER</h2>');
 
     this.$parentEl
         .find('.pause-button')
@@ -74,17 +71,21 @@ View.prototype.increaseDifficulty = function () {
 };
 
   View.prototype.startGame = function () {
+    this.displaySpeed = 1;
+    this.paused = false;
+    this.currentInterval = 150;
+
     this.handleKeyEvent();
 
     this.intervalId = setInterval(
       this.step.bind(this),
       this.currentInterval
-      );
+    );
 
     this.board.appleIntervalId = setInterval(
       this.board.addApples.bind(this.board),
       10000
-      );
+    );
   };
 
   View.prototype.handlePause = function (event) {
@@ -111,15 +112,15 @@ View.prototype.increaseDifficulty = function () {
   };
 
   View.prototype.setStartView = function (event) {
+    console.log("hello");
     $(event.currentTarget).toggleClass('start-button')
                           .toggleClass('pause-button')
                           .off('click');
 
-    this.$el
-        .removeClass('game-over');
+    $('.game-board').empty()
+                    .removeClass('game-over');
 
     new Nokia.View($('.game'));
   };
-
 
 })();
