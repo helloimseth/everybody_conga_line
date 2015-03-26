@@ -16,14 +16,13 @@
   Board.prototype.render = function(){
     this.view.$el.children().each(function (idx, li) {
       var $li = $(li);
-      var pos = [];
-      pos.push(parseInt($li.data("pos-x")));
-      pos.push(parseInt($li.data("pos-y")));
+      var pos = [parseInt($li.data("pos-x")),
+                 parseInt($li.data("pos-y"))];
 
       $li.removeClass();
 
       if (this.snake.isASegment(pos)) {
-        $li.addClass('snake ' + this.snake.dir);
+        $li.addClass(this.snake.segments[pos[0] + '' + pos[1]].liClasses());
       } else if (this.isAnApple(pos)){
         $li.addClass('apple');
       } else {
@@ -51,7 +50,6 @@
 
     return included;
 };
-
 
   Board.prototype.addApples = function(){
     var that = this;
@@ -81,6 +79,5 @@
         this.view.$el.append($li);
       }
     }
-
   };
 })();

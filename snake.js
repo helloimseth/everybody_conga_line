@@ -7,8 +7,18 @@
     this.dir = "N";
     this.inputtedDir = "N";
 
-    this.pos = pos;
-    this.segments = [pos];
+    this.segments = {};
+
+    var posKey = pos[0] + '' + pos[1];
+    this.segments[posKey] = new Nokia.Segment({
+        pos: pos,
+        dir: this.dir,
+        index: 0,
+        snake: this
+      });
+
+    this.leadSegment = this.segments[posKey];
+    this.tailSegment = this.segments[posKey];
     this.alive = true;
 
     this.board = board;
@@ -29,14 +39,16 @@
 
     var newFirst = this.getNewFirstSegment();
 
-    this.checkIfAlive(newFirst);
+    this.checkIfMoveKills(newFirst.pos);
 
-    this.segments.unshift(newFirst);
+    var newFirstPosKey = newFirst.pos[0] + '' + newFirst.pos[1];
+    this.segments[newFirstPosKey] = newFirst;
+    this.leadSegment = newFirst;
 
     this.eatIfApple(newFirst);
   };
 
-  Snake.prototype.checkIfAlive = function (pos) {
+  Snake.prototype.checkIfMoveKills = function (pos) {
     if(this.isASegment(pos) || this.isOutOfBounds(pos)) {
       this.alive = false;
     }
@@ -47,15 +59,12 @@
   };
 
   Snake.prototype.isASegment = function (coord){
-    var included = false;
+    var parsedKey = coord[0] + '' + coord[1];
+    if (this.segments[parsedKey]) {
+      return true;
+    }
 
-    this.segments.forEach(function (el){
-      if(_.isEqual(el, coord)){
-        included = true;
-      }
-    });
-
-    return included;
+    return false;
   };
 
   Snake.prototype.isFirstSegment = function (pos) {
@@ -80,16 +89,20 @@
            pos[1] === this.board.DIM;
   };
 
-  Snake.prototype.eatIfApple = function (pos) {
-    if(this.board.isAnApple(pos)){
+  Snake.prototype.eatIfApple = function (segment) {
+    if(this.board.isAnApple(segment.pos)){
       this.score += 1 * this.modifier;
 
       this.updateModifierAndDifficulty();
 
-      this.board.removeApple(pos);
+      this.board.removeApple(segment.pos);
     } else {
-      this.segments.pop();
+      var posKey = this.tailSegment.pos[0] + '' + this.tailSegment.pos[1];
+      delete this.segments[posKey];
+      this.tailSegment = segment;
     }
+    debugger
+    
   };
 
   Snake.prototype.isOppositeDir = function (dir) {
@@ -105,10 +118,10 @@
   };
 
   Snake.prototype.getNewFirstSegment = function () {
-    var newFirst = _.first(this.segments).slice();
+    var newFirst = this.leadSegment.dup();
 
-    newFirst[0] += Snake.DIRSANDDELTAS[this.dir][0];
-    newFirst[1] += Snake.DIRSANDDELTAS[this.dir][1];
+    newFirst.pos[0] += Snake.DIRSANDDELTAS[this.dir][0];
+    newFirst.pos[1] += Snake.DIRSANDDELTAS[this.dir][1];
 
     return newFirst;
   };
