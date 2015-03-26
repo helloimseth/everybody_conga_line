@@ -27,7 +27,7 @@
   Snake.prototype.move = function(){
     this.dir = this.inputtedDir;
 
-    var newFirst = this.getNewFirstSegment;
+    var newFirst = this.getNewFirstSegment();
 
     this.checkIfAlive(newFirst);
 
@@ -99,11 +99,9 @@
     var summedDeltas = [currentDelta[0] + newDelta[0],
                         currentDelta[1] + newDelta[1]];
 
-    if (_.isEqual(summedDeltas, [0,0])) {
-      return true;
-    }
+    var isOpposite = _.isEqual(summedDeltas, [0,0]) ? true : false;
 
-    return false;
+    return isOpposite;
   };
 
   Snake.prototype.getNewFirstSegment = function () {
