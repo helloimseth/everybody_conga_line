@@ -128,7 +128,6 @@ html, body, section, article, button,
 .game-board li.snake.N.first, .game-board li.snake.W.first {
   border-radius: 20px 0 0 20px;
   transition: none;
-
 }
 
 .game-board li.snake.W.first:before {

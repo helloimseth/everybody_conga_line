@@ -14,10 +14,6 @@
     return this.index === 0 ? ' first' : '';
   };
 
-  Segment.prototype.classIfTail = function () {
-    return this.index === this.snake.segments.length - 1 ? ' tail' : '';
-  };
-
   Segment.prototype.leader = function () {
     return this.snake.segments[this.index - 1];
   };
@@ -28,7 +24,7 @@
 
   Segment.prototype.classIfTopLeftCorner = function () {
     if((this.follower().dir === 'N' && this.leader().dir === 'E') ||
-       (this.follower().dir === 'W' && this.leader().dir === 'S')||
+       (this.follower().dir === 'W' && this.leader().dir === 'S') ||
        (this.follower().dir === 'W' && this.leader().dir === 'E') ||
        (this.follower().dir === 'N' && this.leader().dir === 'S')) {
       return ' top-left-corner';
@@ -37,8 +33,6 @@
   };
 
   Segment.prototype.classIfTopRightCorner = function () {
-    console.log('my dir', this.dir);
-    console.log('leadir', this.leader().dir);
     if((this.follower().dir === 'N' && this.leader().dir === 'W') ||
        (this.follower().dir === 'E' && this.leader().dir === 'S') ||
        (this.follower().dir === 'E' && this.leader().dir === 'W') ||
@@ -76,7 +70,7 @@
     if (this.follower() && this.leader()) {
       classes += this.classIfTopLeftCorner() +
                  this.classIfTopRightCorner() +
-                 this.classIfBottomLeftCorner()  +
+                 this.classIfBottomLeftCorner() +
                  this.classIfBottomRightCorner();
     }
 
