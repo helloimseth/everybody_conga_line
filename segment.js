@@ -22,7 +22,6 @@
     return this.snake.segments[this.index + 1];
   };
 
-
   Segment.prototype.liClasses = function () {
     var classes = 'snake ' +
                   this.dir +
@@ -48,14 +47,11 @@
   };
 
   Segment.prototype._isACornerAt = function (corner) {
-    return (
-      Nokia.Snake.CORNERS[corner].follower.indexOf(this.follower().dir) !== -1 &&
-      Nokia.Snake.CORNERS[corner].leader.indexOf(this.leader().dir) !== -1
-    ) || (
-      this.follower().dir === this.leader().dir &&
-      Nokia.Snake.CORNERS[corner].leader.indexOf(this.leader().dir) !== -1 &&
-      Nokia.Snake.CORNERS[corner].follower.indexOf(this.dir) !== -1
-    );
+    var thisCorner = Nokia.Snake.CORNERS[corner];
+
+    return thisCorner.leaderDirs.indexOf(this.leader().dir) !== -1 &&
+          (thisCorner.followerDirs.indexOf(this.follower().dir) !== -1 ||
+           thisCorner.followerDirs.indexOf(this.dir) !== -1);
   };
 
   Segment.prototype.dup = function () {

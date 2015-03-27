@@ -19,12 +19,12 @@
       var pos = [parseInt($li.data("pos-x")),
                  parseInt($li.data("pos-y"))];
 
-      $li.removeClass().empty();
+      $li.removeClass();
 
       var segment = this.snake.grabSegment(pos);
 
       if (segment) {
-        $li.addClass(segment.liClasses()).text(segment.dir);
+        $li.addClass(segment.liClasses());
       } else if (this.isAnApple(pos)){
         $li.addClass('apple');
       } else {

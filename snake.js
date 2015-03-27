@@ -32,17 +32,17 @@
     };
 
   Nokia.Snake.CORNERS = {
-    TL: { follower: ['N', 'W'],
-          leader: ['E', 'S'],
+    TL: { followerDirs: ['N', 'W'],
+          leaderDirs: ['E', 'S'],
           class: ' top-left-corner'},
-    TR: { follower: ['N', 'E'],
-          leader: ['W', 'S'],
+    TR: { followerDirs: ['N', 'E'],
+          leaderDirs: ['W', 'S'],
           class: ' top-right-corner'  },
-    BL: { follower: ['S', 'W'],
-          leader: ['E', 'N'],
+    BL: { followerDirs: ['S', 'W'],
+          leaderDirs: ['E', 'N'],
           class: ' bottom-left-corner'  },
-    BR: { follower: ['S', 'E'],
-          leader: ['N', 'W'],
+    BR: { followerDirs: ['S', 'E'],
+          leaderDirs: ['N', 'W'],
           class: ' bottom-right-corner'  },
   };
 

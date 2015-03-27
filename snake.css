@@ -95,10 +95,10 @@ html, body, section, article, button,
 }
 
 .game-board li.snake {
-  /*background-image: url('skin.jpg');*/
   background: blue;
   background-size: cover;
   color: white;
+  text-align: center;
 }
 
 .game-board li.snake.N, .game-board li.snake.S {
