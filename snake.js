@@ -33,13 +33,17 @@
 
   Nokia.Snake.CORNERS = {
     TL: { follower: ['N', 'W'],
-          leader: ['E', 'S']  },
-    TR: { follower: ['N', 'W'],
-          leader: ['E', 'S']  },
-    BL: { follower: ['N', 'W'],
-          leader: ['E', 'S']  },
-    BR: { follower: ['N', 'W'],
-          leader: ['E', 'S']  },
+          leader: ['E', 'S'],
+          class: ' top-left-corner'},
+    TR: { follower: ['N', 'E'],
+          leader: ['W', 'S'],
+          class: ' top-right-corner'  },
+    BL: { follower: ['S', 'W'],
+          leader: ['E', 'N'],
+          class: ' bottom-left-corner'  },
+    BR: { follower: ['S', 'E'],
+          leader: ['N', 'W'],
+          class: ' bottom-right-corner'  },
   };
 
   Snake.prototype.move = function(){
