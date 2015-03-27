@@ -24,12 +24,23 @@
     this.modifier = 1;
   };
 
-  Snake.DIRSANDDELTAS = {
+  Nokia.Snake.DIRS_AND_DELTAS = {
     'N': [-1, 0],
     'E': [0, 1],
     'S': [1, 0],
     'W': [0, -1]
     };
+
+  Nokia.Snake.CORNERS = {
+    TL: { follower: ['N', 'W'],
+          leader: ['E', 'S']  },
+    TR: { follower: ['N', 'W'],
+          leader: ['E', 'S']  },
+    BL: { follower: ['N', 'W'],
+          leader: ['E', 'S']  },
+    BR: { follower: ['N', 'W'],
+          leader: ['E', 'S']  },
+  };
 
   Snake.prototype.move = function(){
     this.dir = this.inputtedDir;
@@ -102,8 +113,8 @@
   };
 
   Snake.prototype.isOppositeDir = function (dir) {
-    var currentDelta = Snake.DIRSANDDELTAS[this.dir];
-    var newDelta = Snake.DIRSANDDELTAS[dir];
+    var currentDelta = Snake.DIRS_AND_DELTAS[this.dir];
+    var newDelta = Snake.DIRS_AND_DELTAS[dir];
 
     var summedDeltas = [currentDelta[0] + newDelta[0],
                         currentDelta[1] + newDelta[1]];
@@ -116,8 +127,8 @@
   Snake.prototype.getNewFirstSegment = function () {
     var newFirst = this.segments[0].dup();
 
-    newFirst.pos[0] += Snake.DIRSANDDELTAS[this.dir][0];
-    newFirst.pos[1] += Snake.DIRSANDDELTAS[this.dir][1];
+    newFirst.pos[0] += Snake.DIRS_AND_DELTAS[this.dir][0];
+    newFirst.pos[1] += Snake.DIRS_AND_DELTAS[this.dir][1];
     newFirst.dir = this.dir;
 
     return newFirst;

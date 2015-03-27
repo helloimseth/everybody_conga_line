@@ -98,6 +98,7 @@ html, body, section, article, button,
   /*background-image: url('skin.jpg');*/
   background: blue;
   background-size: cover;
+  color: white;
 }
 
 .game-board li.snake.N, .game-board li.snake.S {

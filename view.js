@@ -61,13 +61,11 @@
 };
 
 View.prototype.increaseDifficulty = function () {
-  if (this.board.snake.segments.length % 10 === 0) {
-    this.currentInterval -= 10;
-    this.displaySpeed += 1;
+  this.currentInterval -= 10;
+  this.displaySpeed += 1;
 
-    clearInterval(this.intervalId);
-    this.intervalId = setInterval(this.step.bind(this), this.currentInterval);
-  }
+  clearInterval(this.intervalId);
+  this.intervalId = setInterval(this.step.bind(this), this.currentInterval);
 };
 
   View.prototype.startGame = function () {

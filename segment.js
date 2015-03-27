@@ -23,43 +23,19 @@
   };
 
   Segment.prototype.classIfTopLeftCorner = function () {
-    if((this.follower().dir === 'N' && this.leader().dir === 'E') ||
-       (this.follower().dir === 'W' && this.leader().dir === 'S') ||
-       (this.follower().dir === 'W' && this.leader().dir === 'E') ||
-       (this.follower().dir === 'N' && this.leader().dir === 'S')) {
-      return ' top-left-corner';
-    }
-    return '';
+    return this._isTopLeftCorner() ? ' top-left-corner' : '';
   };
 
   Segment.prototype.classIfTopRightCorner = function () {
-    if((this.follower().dir === 'N' && this.leader().dir === 'W') ||
-       (this.follower().dir === 'E' && this.leader().dir === 'S') ||
-       (this.follower().dir === 'E' && this.leader().dir === 'W') ||
-       (this.follower().dir === 'N' && this.leader().dir === 'S')) {
-      return ' top-right-corner';
-    }
-    return '';
+    return this._isTopRightCorner() ? ' top-right-corner' : '';
   };
 
   Segment.prototype.classIfBottomLeftCorner = function () {
-    if((this.follower().dir === 'S' && this.leader().dir === 'E') ||
-       (this.follower().dir === 'W' && this.leader().dir === 'N') ||
-       (this.follower().dir === 'W' && this.leader().dir === 'E') ||
-       (this.follower().dir === 'S' && this.leader().dir === 'N')) {
-      return ' bottom-left-corner';
-    }
-    return '';
+    return this._isBottomLeftCorner() ? ' bottom-left-corner' : '';
   };
 
   Segment.prototype.classIfBottomRightCorner = function () {
-    if((this.follower().dir === 'S' && this.leader().dir === 'W') ||
-       (this.follower().dir === 'E' && this.leader().dir === 'N') ||
-       (this.follower().dir === 'E' && this.leader().dir === 'W') ||
-       (this.follower().dir === 'S' && this.leader().dir === 'N')) {
-      return ' bottom-right-corner';
-    }
-    return '';
+    return this._isBottomRightCorner() ? ' bottom-right-corner' : '';
   };
 
   Segment.prototype.liClasses = function () {
@@ -84,6 +60,50 @@
       index: this.index,
       snake: this.snake
     });
+  };
+
+  Segment.prototype._isTopLeftCorner = function () {
+    return (
+      Nokia.Snake.CORNERS.TL.follower.indexOf(this.follower().dir) !== -1 &&
+      Nokia.Snake.CORNERS.TL.leader.indexOf(this.leader().dir) !== -1
+    ) || (
+      this.follower().dir === this.leader().dir &&
+      Nokia.Snake.CORNERS.TL.leader.indexOf(this.leader().dir) !== -1 &&
+      Nokia.Snake.CORNERS.TL.follower.indexOf(this.dir) !== -1
+    );
+  };
+
+  Segment.prototype._isTopRightCorner = function () {
+    return (this.follower().dir === 'N' && this.leader().dir === 'W') ||
+           (this.follower().dir === 'E' && this.leader().dir === 'S') ||
+           (this.follower().dir === 'E' && this.leader().dir === 'W') ||
+           (this.follower().dir === 'N' && this.leader().dir === 'S') ||
+           (this.follower().dir === 'W' && this.leader().dir === 'W' &&
+            this.dir === 'N')                                         ||
+           (this.follower().dir === 'S' && this.leader().dir === 'S' &&
+            this.dir === 'E');
+  };
+
+  Segment.prototype._isBottomLeftCorner = function () {
+    return (this.follower().dir === 'S' && this.leader().dir === 'E') ||
+           (this.follower().dir === 'W' && this.leader().dir === 'N') ||
+           (this.follower().dir === 'W' && this.leader().dir === 'E') ||
+           (this.follower().dir === 'S' && this.leader().dir === 'N') ||
+           (this.follower().dir === 'E' && this.leader().dir === 'E' &&
+            this.dir === 'S')                                         ||
+           (this.follower().dir === 'N' && this.leader().dir === 'N' &&
+            this.dir === 'W');
+  };
+
+  Segment.prototype._isBottomRightCorner = function () {
+    return (this.follower().dir === 'S' && this.leader().dir === 'W') ||
+           (this.follower().dir === 'E' && this.leader().dir === 'N') ||
+           (this.follower().dir === 'E' && this.leader().dir === 'W') ||
+           (this.follower().dir === 'S' && this.leader().dir === 'N') ||
+           (this.follower().dir === 'W' && this.leader().dir === 'W' &&
+            this.dir === 'S')                                         ||
+           (this.follower().dir === 'N' && this.leader().dir === 'N' &&
+            this.dir === 'E');
   };
 
 })();
