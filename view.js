@@ -30,6 +30,7 @@
     }
 
     this.$parentEl.keydown(function (event) {
+      event.preventDefault();
       this.board.snake.turn(View.KEYCODEANDDIRS[event.keyCode]);
       }.bind(this));
     };

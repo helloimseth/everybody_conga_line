@@ -1,0 +1,142 @@
+html, body, section, article, button,
+ h1, h2, p, strong, em, a, ul, li {
+   margin: 0;
+   border: 0;
+   padding: 0;
+   outline: 0;
+   box-sizing: inherit;
+   font: inherit;
+   font-family: 'Montserrat Alternates', sans-serif;
+   text-decoration: inherit;
+   text-align: inherit;
+   color: inherit;
+   background: transparent;
+ }
+
+ ul, li {
+   list-style: none;
+ }
+
+ .group:after {
+   content: "";
+   clear: both;
+   display: block;
+ }
+
+ /**/
+
+ .game {
+   width: 800px;
+   margin: 150px auto;
+   position: relative;
+ }
+
+ .start-button, .pause-button {
+  background: #342e66;
+  padding: 10px 20px;
+  cursor: pointer;
+  float: left;
+  color: #fafafa;
+  box-shadow: 0 0 1px #151515;
+  margin: 0 20px 20px 0;
+ }
+
+ .start-button:before {
+  content: "Play Snake";
+ }
+
+ .pause-button:before {
+  content: "Pause Game";
+ }
+
+ .pause-screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #151515;
+  opacity: .9;
+ }
+
+ .game-board {
+  width: 500px;
+  height: 500px;
+  background: #000;
+
+  box-shadow: inset 0 0 5px #151515;
+  border: 5px solid #bb1244;
+  float: left;
+  position: relative;
+ }
+
+ .game-over {
+  background: #bb1244;
+  text-align: center;
+ }
+
+ .game-over > H2 {
+  color: #fff;
+  font-size: 36px;
+  font-weight: bold;
+  margin-top: 150px;
+ }
+
+ .menu {
+  float: left;
+  text-align: center;
+ }
+
+ .game-board li {
+  float: left;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+ }
+
+ .game-board li.empty {
+  background: transparent;
+ }
+
+ .game-board li.snake {
+  background-image: url('FellaConga.png');
+  background-size: cover;
+  color: white;
+  text-align: center;
+ }
+
+ .game-board li.snake.N {
+  transform: rotate(90deg);
+ }
+
+ .game-board li.snake.S {
+  transform: rotate(270deg);
+ }
+
+ .game-board li.snake.E {
+  transform: rotate(180deg);
+ }
+
+ .game-board li.apple {
+   background-image: url('Waiting.png');
+   background-size: cover;
+   transform: rotate(nth([45, 180, 90, 225, 315], random(5))deg)
+ }
+
+ .game-board li.snake.W.top-left-corner,
+ .game-board li.snake.S.bottom-right-corner {
+  transform: rotate(-45deg);
+ }
+
+ .game-board li.snake.N.top-right-corner,
+ .game-board li.snake.W.bottom-left-corner  {
+  transform: rotate(45deg);
+ }
+
+ .game-board li.snake.E.top-right-corner,
+ .game-board li.snake.S.bottom-left-corner {
+  transform: rotate(-135deg);
+ }
+
+ .game-board li.snake.N.top-left-corner,
+ .game-board li.snake.E.bottom-right-corner {
+   transform: rotate(135deg);
+ }
