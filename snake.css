@@ -115,7 +115,6 @@ html, body, section, article, button,
  .game-board li.apple {
    background-image: url('Waiting.png');
    background-size: cover;
-   transform: rotate(nth([45, 180, 90, 225, 315], random(5))deg)
  }
 
  .game-board li.snake.W.top-left-corner,
