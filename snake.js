@@ -72,11 +72,15 @@
   };
 
   Snake.prototype.isASegment = function (pos) {
+	var _isASegment = false;
+	
     this.segments.forEach(function (segment) {
       if (_.isEqual(segment.pos, pos)) {
-        return true
+		  _isASegment = true;
       }
     });
+	
+	return _isASegment;
   };
 
   Snake.prototype.isFirstSegment = function (pos) {
