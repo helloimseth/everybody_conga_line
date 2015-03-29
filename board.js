@@ -5,41 +5,47 @@
 
   var Board = Nokia.Board = function (view) {
     this.view = view;
-    this.snake = new Nokia.Snake([15,15], this);
     this.apples = [];
     this.DIM = 25;
 
     this.buildBoard();
     this.addApples();
+	
+    this.snake = new Nokia.Snake([15,15], this);
   };
+
 
   Board.prototype.render = function(){
-    this.view.$el.children().each(function (idx, li) {
-      var $li = $(li);
-      var pos = [parseInt($li.data("pos-x")),
-                 parseInt($li.data("pos-y"))];
+	 this.view.$el.children().removeClass();
 
-      $li.removeClass();
-
-      var segment = this.snake.grabSegment(pos);
-
-      if (segment) {
-        $li.addClass(segment.liClasses());
-      } else if (this.isAnApple(pos)){
-        $li.addClass('apple');
-      } else {
-        $li.addClass('empty');
-      }
-
-      if (this.snake.isFirstSegment(pos)) {
-        $li.addClass('first');
-      }
-
-      this.view.$parentEl.find('.score-num').text(this.snake.score);
-      this.view.$parentEl.find('.speed-num').text(this.view.displaySpeed);
-
-    }.bind(this));
+	 this.renderSnakeSegments();	  
+	 this.renderApples();
+	 
+	 this.view.updateStats();
   };
+  
+  Board.prototype.renderApples = function () {
+	  this.apples.forEach ( function (applePos) {
+		  var index = this.convertPosToIndex(applePos);
+		  $li = $(this.view.$el.children()[index]);
+		  $li.addClass('apple')
+	  }.bind(this));
+  };
+  
+  Board.prototype.renderSnakeSegments = function () {
+	  this.snake.segments.forEach( function (segment, index) {
+		  segment.index = index;
+		  segment.render();
+	  });
+  }
+  
+  Board.prototype.convertIndexToPos = function (idx) {
+	  return [Math.floor(idx / this.DIM), Math.floor(idx % this.DIM)];
+  };
+  
+  Board.prototype.convertPosToIndex = function (pos) {
+	  return pos[0] * this.DIM + pos[1];
+  }
 
   Board.prototype.isAnApple = function(coord) {
     var included = false;
@@ -74,12 +80,8 @@
   };
 
   Board.prototype.buildBoard = function(){
-    for(var i = 0; i < this.DIM; i++) {
-      for(var j = 0; j < this.DIM; j++) {
-        $li = $('<li>').data("pos-x", i)
-                       .data("pos-y", j);
-        this.view.$el.append($li);
-      }
-    }
+    _(Math.pow(this.DIM, 2)).times(function () {
+    	this.view.$el.append($('<li>'));
+    }.bind(this))
   };
 })();

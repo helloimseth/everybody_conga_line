@@ -7,18 +7,20 @@
     this.dir = "N";
     this.inputtedDir = "N";
 
-    var startSegment = new Nokia.Segment({
+    this.board = board;
+	
+	var liIndex = pos[0] + pos[1] * this.board.DIM;
+
+	this.segments = [];
+    this.segments.push(new Nokia.Segment({
         pos: pos,
         dir: this.dir,
-        index: 0,
+		index: 0,
+		liIndex: liIndex,
         snake: this
-      });
-
-    this.segments = [ startSegment ];
+      }));
 
     this.alive = true;
-
-    this.board = board;
 
     this.score = 0;
     this.modifier = 1;
@@ -52,16 +54,16 @@
     var newFirst = this.getNewFirstSegment();
 
     this.checkIfMoveKills(newFirst.pos);
-
-    this.segments.unshift(newFirst);
-    this.updateSegmentIndices();
-
-    this.eatIfApple(newFirst);
+	
+	if (this.alive) {
+	    this.segments.unshift(newFirst);
+	    this.eatIfApple(newFirst);
+	}
   };
 
   Snake.prototype.checkIfMoveKills = function (pos) {
-    if(this.grabSegment(pos) || this.isOutOfBounds(pos)) {
-      this.alive = false;
+    if(this.isASegment(pos) || this.isOutOfBounds(pos)) {
+		this.board.view.endGame();
     }
   };
 
@@ -69,16 +71,12 @@
     this.inputtedDir = this.isOppositeDir(dir) ? this.dir : dir;
   };
 
-  Snake.prototype.grabSegment = function (pos) {
-    var currentSegment;
-
+  Snake.prototype.isASegment = function (pos) {
     this.segments.forEach(function (segment) {
       if (_.isEqual(segment.pos, pos)) {
-        currentSegment =  segment;
+        return true
       }
     });
-
-    return currentSegment;
   };
 
   Snake.prototype.isFirstSegment = function (pos) {
@@ -137,11 +135,4 @@
 
     return newFirst;
   };
-
-  Snake.prototype.updateSegmentIndices = function () {
-    this.segments.slice(1).forEach( function (segment) {
-      segment.index += 1;
-    });
-  };
-
 })();

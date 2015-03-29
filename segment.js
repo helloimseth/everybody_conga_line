@@ -6,12 +6,16 @@
   var Segment = Nokia.Segment = function (options) {
     this.pos = options.pos;
     this.dir = options.dir;
-    this.index = options.index;
     this.snake = options.snake;
+    this.index = options.index;
+  };
+  
+  Segment.prototype.isLeader = function () {
+	  return this.index === 0;
   };
 
   Segment.prototype.classIfLeader = function () {
-    return this.index === 0 ? ' first' : '';
+    return this.isLeader() ? ' first' : '';
   };
 
   Segment.prototype.leader = function () {
@@ -21,6 +25,12 @@
   Segment.prototype.follower = function () {
     return this.snake.segments[this.index + 1];
   };
+  
+  Segment.prototype.render = function () {
+	  var liIndex = this.pos[0] * this.snake.board.DIM  + this.pos[1]
+	  var li = this.snake.board.view.$el.children()[liIndex];
+	  $(li).addClass(this.liClasses());
+  }
 
   Segment.prototype.liClasses = function () {
     var classes = 'snake ' +

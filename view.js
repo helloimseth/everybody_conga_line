@@ -8,6 +8,13 @@
     this.$el = $el.find('.game-board');
 
     this.board = new Nokia.Board(this);
+	this.displaySpeed = 1
+	
+	View.CLASSES_STATS = {
+	  '.score-num': this.board.snake.score,
+	  '.speed-num': this.displaySpeed 
+  	};
+
     this.board.render();
 
     this.$parentEl
@@ -16,11 +23,18 @@
     this.startGame();
   };
 
-  View.KEYCODEANDDIRS = {
+  Nokia.View.KEYCODE_DIRS = {
     38: "N",
     40: "S",
     37: "W",
     39: "E"
+  };
+ 
+  View.prototype.updateStats = function () {
+	  for(var key in this.CLASSES_STATS) {
+    	var stat = this.CLASSES_STATS[key];
+  		this.$parentEl.find(key).text(stat);
+	  }  
   };
 
   View.prototype.handleKeyEvent = function(){
@@ -31,18 +45,14 @@
 
     this.$parentEl.keydown(function (event) {
       event.preventDefault();
-      this.board.snake.turn(View.KEYCODEANDDIRS[event.keyCode]);
+      this.board.snake.turn(View.KEYCODE_DIRS[event.keyCode]);
       }.bind(this));
     };
 
 
   View.prototype.step = function(){
-    if(this.board.snake.alive){
       this.board.snake.move();
       this.board.render();
-    } else {
-      this.endGame();
-    }
   };
 
   View.prototype.endGame = function () {
