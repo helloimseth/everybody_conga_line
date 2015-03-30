@@ -8,11 +8,10 @@
     this.$el = $el.find('.game-board');
 
     this.board = new Nokia.Board(this);
-	this.displaySpeed = 1
-	
-	View.CLASSES_STATS = {
-	  '.score-num': this.board.snake.score,
-	  '.speed-num': this.displaySpeed 
+
+	View.STATS = {
+  	  score: '.score-num',
+  	  displaySpeed: '.speed-num'
   	};
 
     this.board.render();
@@ -29,12 +28,12 @@
     37: "W",
     39: "E"
   };
- 
+
   View.prototype.updateStats = function () {
-	  for(var key in this.CLASSES_STATS) {
-    	var stat = this.CLASSES_STATS[key];
-  		this.$parentEl.find(key).text(stat);
-	  }  
+	  for(var key in View.STATS) {
+    	var statClass = View.STATS[key];
+  		this.$parentEl.find(statClass).text(this.board.snake[key]);
+	  }
   };
 
   View.prototype.handleKeyEvent = function(){
@@ -69,15 +68,15 @@
         .addClass('start-button')
         .off('click')
         .on("click", this.setStartView);
-};
+  };
 
-View.prototype.increaseDifficulty = function () {
-  this.currentInterval -= 10;
-  this.displaySpeed += 1;
+  View.prototype.increaseDifficulty = function () {
+    this.currentInterval -= 10;
+    this.board.snake.displaySpeed += 1;
 
-  clearInterval(this.intervalId);
-  this.intervalId = setInterval(this.step.bind(this), this.currentInterval);
-};
+    clearInterval(this.intervalId);
+    this.intervalId = setInterval(this.step.bind(this), this.currentInterval);
+  };
 
   View.prototype.startGame = function () {
     this.displaySpeed = 1;

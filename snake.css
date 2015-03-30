@@ -6,13 +6,12 @@ html, body, section, article, button,
    outline: 0;
    box-sizing: inherit;
    font: inherit;
-   font-family: 'Montserrat Alternates', sans-serif;
+   font-family: 'Gorditas', cursive;
    text-decoration: inherit;
    text-align: inherit;
    color: inherit;
    background: transparent;
  }
-
  ul, li {
    list-style: none;
  }
@@ -25,10 +24,46 @@ html, body, section, article, button,
 
  /**/
 
+ .container {
+   position: fixed;
+   top:0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+
+   color: #fafafa;
+
+   background-image: url('background1.png');
+   background-size: cover;
+ }
+
  .game {
    width: 800px;
-   margin: 150px auto;
+   margin: auto;
    position: relative;
+ }
+
+ .header {
+   display:block;
+   font-size: 48px;
+   text-align: center;
+   margin: 50px auto;
+   width: 760px;
+   background: #eaeaea;
+   color: #151515;
+   border-radius: 10px;
+   padding: 20px;
+ }
+
+ .menu {
+  float: left;
+  text-align: center;
+  background: #eaeaea;
+  margin-right: 20px;
+  padding: 20px;
+  color: black;
+  background: #eaeaea;
+  border-radius: 10px;
  }
 
  .start-button, .pause-button {
@@ -36,9 +71,9 @@ html, body, section, article, button,
   padding: 10px 20px;
   cursor: pointer;
   float: left;
-  color: #fafafa;
   box-shadow: 0 0 1px #151515;
-  margin: 0 20px 20px 0;
+  color: #fefefe;
+  margin: 0 0 20px 0;
  }
 
  .start-button:before {
@@ -60,16 +95,17 @@ html, body, section, article, button,
  .game-board {
   width: 500px;
   height: 500px;
-  background: #000;
+  background-image: url('background.jpg');
+  background-size: cover;
 
-  box-shadow: inset 0 0 5px #151515;
-  border: 5px solid #bb1244;
+  box-shadow: inset 0 0 5px #fafafa;
+  border: 5px solid #151515;
   float: left;
   position: relative;
  }
 
  .game-over {
-  background: #bb1244;
+  background: #151515;
   text-align: center;
  }
 
@@ -80,10 +116,7 @@ html, body, section, article, button,
   margin-top: 150px;
  }
 
- .menu {
-  float: left;
-  text-align: center;
- }
+
 
  .game-board li {
   float: left;
@@ -100,15 +133,19 @@ html, body, section, article, button,
   text-align: center;
  }
 
- .game-board li.snake.N {
+ .game-board li.snake.first {
+   background-image: url('FellaCongaLeader.png');
+ }
+
+ .game-board li.N {
   transform: rotate(90deg);
  }
 
- .game-board li.snake.S {
+ .game-board li.S {
   transform: rotate(270deg);
  }
 
- .game-board li.snake.E {
+ .game-board li.E {
   transform: rotate(180deg);
  }
 
@@ -120,19 +157,23 @@ html, body, section, article, button,
  .game-board li.snake.W.top-left-corner,
  .game-board li.snake.S.bottom-right-corner {
   transform: rotate(-45deg);
+  background-image: url('FellaCongaLeader.png');
  }
 
  .game-board li.snake.N.top-right-corner,
  .game-board li.snake.W.bottom-left-corner  {
   transform: rotate(45deg);
+  background-image: url('FellaCongaLeader.png');
  }
 
  .game-board li.snake.E.top-right-corner,
  .game-board li.snake.S.bottom-left-corner {
   transform: rotate(-135deg);
+  background-image: url('FellaCongaLeader.png');
  }
 
  .game-board li.snake.N.top-left-corner,
  .game-board li.snake.E.bottom-right-corner {
    transform: rotate(135deg);
+   background-image: url('FellaCongaLeader.png');
  }

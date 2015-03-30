@@ -8,10 +8,10 @@
     this.inputtedDir = "N";
 
     this.board = board;
-	
+
 	var liIndex = pos[0] + pos[1] * this.board.DIM;
 
-	this.segments = [];
+	   this.segments = [];
     this.segments.push(new Nokia.Segment({
         pos: pos,
         dir: this.dir,
@@ -20,6 +20,7 @@
         snake: this
       }));
 
+    this.displaySpeed = 1;
     this.score = 0;
     this.modifier = 1;
   };
@@ -52,7 +53,7 @@
     var newFirst = this.getNewFirstSegment();
 
     this.checkIfMoveKills(newFirst.pos);
-	
+
 	this.segments.unshift(newFirst);
 	this.eatIfApple(newFirst);
   };
@@ -69,13 +70,13 @@
 
   Snake.prototype.isASegment = function (pos) {
 	var _isASegment = false;
-	
+
     this.segments.forEach(function (segment) {
       if (_.isEqual(segment.pos, pos)) {
 		  _isASegment = true;
       }
     });
-	
+
 	return _isASegment;
   };
 
@@ -102,7 +103,7 @@
   };
 
   Snake.prototype.eatIfApple = function (segment) {
-    if(this.board.isAnApple(segment.pos)){	  
+    if(this.board.isAnApple(segment.pos)){
       this.score += 1 * this.modifier;
 
       this.updateModifierAndDifficulty();

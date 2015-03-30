@@ -10,45 +10,45 @@
 
     this.buildBoard();
     this.addApples();
-	
+
     this.snake = new Nokia.Snake([15,15], this);
   };
 
   Board.prototype.render = function(){
-	 this.renderSnakeSegments();	  
+	 this.renderSnakeSegments();
 	 this.renderApples();
-	 
+
 	 this.view.updateStats();
   };
-  
+
   Board.prototype.renderApples = function () {
-	  this.apples.forEach ( function (applePos) {
-		  var index = this.convertPosToIndex(applePos);
+	  this.apples.forEach ( function (apple) {
+		  var index = this.convertPosToIndex(apple.pos);
 		  $li = $(this.view.$el.children()[index]);
-		  $li.addClass('apple')
+		  $li.addClass('apple ' + apple.dir );
 	  }.bind(this));
   };
-  
+
   Board.prototype.renderSnakeSegments = function () {
 	  this.snake.segments.forEach( function (segment, index) {
 		  segment.index = index;
 		  segment.render();
 	  });
-  }
-  
+  };
+
   Board.prototype.convertIndexToPos = function (idx) {
 	  return [Math.floor(idx / this.DIM), Math.floor(idx % this.DIM)];
   };
-  
+
   Board.prototype.convertPosToIndex = function (pos) {
 	  return pos[0] * this.DIM + pos[1];
-  }
+  };
 
   Board.prototype.isAnApple = function(coord) {
     var included = false;
 
-    this.apples.forEach(function (el){
-      if(_.isEqual(el, coord)){
+    this.apples.forEach(function (apple){
+      if(_.isEqual(apple.pos, coord)){
         included = true;
       }
     });
@@ -57,18 +57,23 @@
 };
 
   Board.prototype.addApples = function(){
-    var that = this;
+    if (this.apples.length < 5) {
+      _(25).times(function(){
+        var x = Math.floor(this.DIM*Math.random());
+        var y = Math.floor(this.DIM*Math.random());
+        var dir = ['N', 'S', 'E', 'W'].splice(Math.floor(3*Math.random()), 1);
 
-    _(4).times(function(){
-      var x = Math.floor(that.DIM*Math.random());
-      var y = Math.floor(that.DIM*Math.random());
-      that.apples.push([x, y]);
-    });
+        this.apples.push({
+          pos: [x, y],
+          dir: dir
+        });
+      }.bind(this));
+    }
   };
 
-  Board.prototype.removeApple = function(apple){
-    this.apples.forEach(function (el, idx){
-      if(_.isEqual(el, apple)){
+  Board.prototype.removeApple = function(applePos){
+    this.apples.forEach(function (apple, idx){
+      if(_.isEqual(apple.pos, applePos)){
         this.apples.splice(idx, 1);
       }
     }.bind(this));
@@ -77,6 +82,7 @@
   Board.prototype.buildBoard = function(){
     _(Math.pow(this.DIM, 2)).times(function () {
     	this.view.$el.append($('<li>'));
-    }.bind(this))
+    }.bind(this));
   };
+
 })();

@@ -9,9 +9,13 @@
     this.snake = options.snake;
     this.index = options.index;
   };
-  
+
   Segment.prototype.isLeader = function () {
 	  return this.index === 0;
+  };
+
+  Segment.prototype.isLast = function () {
+	  return this.index === this.snake.segments.length - 1;
   };
 
   Segment.prototype.classIfLeader = function () {
@@ -25,22 +29,22 @@
   Segment.prototype.follower = function () {
     return this.snake.segments[this.index + 1];
   };
-  
+
   Segment.prototype.render = function () {
 	  this.$li().removeClass().addClass(this.liClasses());
-  }
-  
+  };
+
   Segment.prototype.$li = function () {
-	  var liIndex = this.pos[0] * this.snake.board.DIM  + this.pos[1]
-	  return $(this.snake.board.view.$el.children()[liIndex])
-  }
+	  var liIndex = this.pos[0] * this.snake.board.DIM  + this.pos[1];
+	  return $(this.snake.board.view.$el.children()[liIndex]);
+  };
 
   Segment.prototype.liClasses = function () {
     var classes = 'snake ' +
                   this.dir +
                   this.classIfLeader();
 
-    if (this.follower() && this.leader()) {
+    if (this.leader()) {
       classes += this.cornerClasses();
     }
 
@@ -63,8 +67,10 @@
     var thisCorner = Nokia.Snake.CORNERS[corner];
 
     return thisCorner.leaderDirs.indexOf(this.leader().dir) !== -1 &&
-          (thisCorner.followerDirs.indexOf(this.follower().dir) !== -1 ||
-           thisCorner.followerDirs.indexOf(this.dir) !== -1);
+          (thisCorner.followerDirs.indexOf(this.dir) !== -1 ||
+            (this.follower() &&
+            thisCorner.followerDirs.indexOf(this.follower().dir) !== -1)
+          );
   };
 
   Segment.prototype.dup = function () {
