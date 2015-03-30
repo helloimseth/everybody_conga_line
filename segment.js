@@ -27,9 +27,12 @@
   };
   
   Segment.prototype.render = function () {
+	  this.$li().removeClass().addClass(this.liClasses());
+  }
+  
+  Segment.prototype.$li = function () {
 	  var liIndex = this.pos[0] * this.snake.board.DIM  + this.pos[1]
-	  var li = this.snake.board.view.$el.children()[liIndex];
-	  $(li).addClass(this.liClasses());
+	  return $(this.snake.board.view.$el.children()[liIndex])
   }
 
   Segment.prototype.liClasses = function () {

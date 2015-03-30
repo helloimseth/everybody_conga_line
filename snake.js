@@ -20,8 +20,6 @@
         snake: this
       }));
 
-    this.alive = true;
-
     this.score = 0;
     this.modifier = 1;
   };
@@ -55,10 +53,8 @@
 
     this.checkIfMoveKills(newFirst.pos);
 	
-	if (this.alive) {
-	    this.segments.unshift(newFirst);
-	    this.eatIfApple(newFirst);
-	}
+	this.segments.unshift(newFirst);
+	this.eatIfApple(newFirst);
   };
 
   Snake.prototype.checkIfMoveKills = function (pos) {
@@ -106,14 +102,14 @@
   };
 
   Snake.prototype.eatIfApple = function (segment) {
-    if(this.board.isAnApple(segment.pos)){
+    if(this.board.isAnApple(segment.pos)){	  
       this.score += 1 * this.modifier;
 
       this.updateModifierAndDifficulty();
 
       this.board.removeApple(segment.pos);
     } else {
-      this.segments.pop();
+      this.segments.pop().$li().removeClass();
     }
 
   };

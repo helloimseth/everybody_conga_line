@@ -14,10 +14,7 @@
     this.snake = new Nokia.Snake([15,15], this);
   };
 
-
   Board.prototype.render = function(){
-	 this.view.$el.children().removeClass();
-
 	 this.renderSnakeSegments();	  
 	 this.renderApples();
 	 
@@ -70,13 +67,11 @@
   };
 
   Board.prototype.removeApple = function(apple){
-    var that = this;
-
     this.apples.forEach(function (el, idx){
       if(_.isEqual(el, apple)){
-        that.apples.splice(idx, 1);
+        this.apples.splice(idx, 1);
       }
-    });
+    }.bind(this));
   };
 
   Board.prototype.buildBoard = function(){
