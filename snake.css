@@ -77,7 +77,7 @@ html, body, section, article, button,
  }
 
  .start-button:before {
-  content: "Play Snake";
+  content: "Start the Conga";
  }
 
  .pause-button:before {
@@ -115,8 +115,6 @@ html, body, section, article, button,
   font-weight: bold;
   margin-top: 150px;
  }
-
-
 
  .game-board li {
   float: left;

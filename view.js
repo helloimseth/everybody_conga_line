@@ -37,16 +37,17 @@
   };
 
   View.prototype.handleKeyEvent = function(){
-    if (event.keyCode === 32) {
-      this.pauseGame();
-      return;
-    }
-
     this.$parentEl.keydown(function (event) {
       event.preventDefault();
+
+      if (event.keyCode === 32) {
+        this.pauseGame();
+        return;
+      }
+
       this.board.snake.turn(View.KEYCODE_DIRS[event.keyCode]);
       }.bind(this));
-    };
+  };
 
 
   View.prototype.step = function(){
@@ -60,7 +61,8 @@
     this.$el
         .empty()
         .addClass('game-over')
-        .html('<h2>GAME OVER</h2>');
+        .html('<h2>PARTY\'S OVER</h2>')
+        .append('<h3>Click the button on the left to get it going again</h3>');
 
     this.$parentEl
         .find('.pause-button')
