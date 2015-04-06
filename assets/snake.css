@@ -136,14 +136,20 @@ html, body, section, article, button,
  }
 
  .game-board li.N {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
   transform: rotate(90deg);
  }
 
  .game-board li.S {
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
   transform: rotate(270deg);
  }
 
  .game-board li.E {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
   transform: rotate(180deg);
  }
 
@@ -154,24 +160,32 @@ html, body, section, article, button,
 
  .game-board li.snake.W.top-left-corner,
  .game-board li.snake.S.bottom-right-corner {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
   transform: rotate(-45deg);
   background-image: url('FellaCongaLeader.png');
  }
 
  .game-board li.snake.N.top-right-corner,
  .game-board li.snake.W.bottom-left-corner  {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
   transform: rotate(45deg);
   background-image: url('FellaCongaLeader.png');
  }
 
  .game-board li.snake.E.top-right-corner,
  .game-board li.snake.S.bottom-left-corner {
+  -webkit-transform: rotate(-135deg);
+  -moz-transform: rotate(-135deg);
   transform: rotate(-135deg);
   background-image: url('FellaCongaLeader.png');
  }
 
  .game-board li.snake.N.top-left-corner,
  .game-board li.snake.E.bottom-right-corner {
-   transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg); 
+  transform: rotate(135deg);
    background-image: url('FellaCongaLeader.png');
  }
